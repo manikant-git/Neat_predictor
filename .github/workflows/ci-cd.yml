@@ -1,4 +1,4 @@
-name: CI/CD Demo
+name: CI/CD Demo mani
 
 on:
   push:

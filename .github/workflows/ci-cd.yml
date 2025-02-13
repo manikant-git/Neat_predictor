@@ -2,7 +2,7 @@ name: first demo
 on:
   push:
     branches: [main]
-job :
+jobs :
   build: to build a job
     runs-on: ubuntu-latest
     steps: 

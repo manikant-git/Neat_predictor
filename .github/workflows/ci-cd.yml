@@ -1,12 +1,12 @@
-name: first demo
-
+name: My Workflow
 on:
   push:
-    branches: [main]
+  branches: [main]
 
-jobs:  # Correct: jobs (plural)
-  build:  # Correct: colon after build
+jobs:
+  Build:
     runs-on: ubuntu-latest
-    steps:  # Correct: Indentation is crucial here!
-      - name: check code
-        uses: actions/checkout@v4
+    steps:
+     -name: checkout
+      runs:checkout/actions@v4
+    

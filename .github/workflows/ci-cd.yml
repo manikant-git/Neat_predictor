@@ -20,6 +20,48 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'  # Or your Python version
+  deploy:  # New: The deploy job
+    needs: test  # Deploy *only* if the 'test' job passes
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' # Only deploy from main branch
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up SSH key # Example: Deploy via SSH
+        uses: shivammathur/setup-ssh-key@v2
+        with:
+          private-key: ${{ secrets.SSH_PRIVATE_KEY }} # SSH key as a secret
+
+      - name: Build project (if needed) # Optional build step
+        run: |
+          # Your build commands here (e.g., compile, package)
+          echo "Building..." # Replace with actual build commands
+
+      - name: Deploy to server
+        run: |
+          ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "
+            # Stop application (if needed)
+            # Example: sudo systemctl stop my-app
+            # Copy files
+            scp -r ./* ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/path/to/app/
+            # Restart application (if needed)
+            # Example: sudo systemctl restart my-app
+          "
+
+      # Example: Deploy to AWS S3 (Alternative to SSH deploy above)
+      # - name: Configure AWS credentials
+      #   uses: aws-actions/configure-aws-credentials@v2
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: us-east-1
+      # - name: Upload to S3
+      #   uses: aws-actions/s3-upload@v3
+      #   with:
+      #     bucket: my-s3-bucket
+      #     local-dir: ./build # Or the directory with your built files
+
 
       - name: Install dependencies
         run: pip install -r requirements.txt  # Install from requirements.txt

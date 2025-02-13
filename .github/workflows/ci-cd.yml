@@ -2,3 +2,10 @@ name: first demo
 on:
   push:
     branches: [main]
+job :
+  build: to build a job
+    runs-on: ubuntu-latest
+    steps: 
+      -name: check code
+       uses: actions/checkout@v4
+       

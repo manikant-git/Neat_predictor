@@ -1,11 +1,12 @@
 name: first demo
+
 on:
   push:
     branches: [main]
-jobs :
-  build: to build a job
+
+jobs:  # Correct: jobs (plural)
+  build:  # Correct: colon after build
     runs-on: ubuntu-latest
-    steps: 
-      -name: check code
-       uses: actions/checkout@v4
-       
+    steps:  # Correct: Indentation is crucial here!
+      - name: check code
+        uses: actions/checkout@v4
